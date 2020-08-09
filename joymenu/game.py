@@ -3,23 +3,45 @@ from typing import Tuple
 import pygame
 
 import joymenu.menuentries as menuentries
+import pygame.image as image
+import joymenu.controllers as controllers
 
 
 class MenuView:
-    def __init__(self, game, entries: menuentries.MenuEntries):
-        self._icons = []
-        for entry in entries.values:
-            self._icons.append(pygame.image.load(entry.icon))
+    def __init__(self, game, entries: menuentries.MenuEntries, screen_res: Tuple[int, int]):
+        self.input_handler = controllers.InputHandler()
+        self.size = 250
+        self._icons = self.load_resized_images(entries)
         self._game = game
+        self.x_pos, self.y_pos = self.get_starting_pos(entries, screen_res)
+
+    def load_resized_images(self, entries):
+        return [self.resize_image(pygame.image.load(entry.icon)) for entry in entries.values]
+
+    def get_starting_pos(self, entries, screen_res):
+        screen_width, screen_height = screen_res
+        menu_width = (self.size * len(entries))
+        menu_height = self.size
+        x = (screen_width - menu_width) / 2
+        y = (screen_height - menu_height) / 2
+        return x, y
 
     def draw(self):
-        summer = 0
-        start = (400, 540)
+        threshold = 0
         for i in self._icons:
-            self._game.frame.blit(i, (start[0] + summer, start[1]))
-            summer += 500
+            self._game.frame.blit(i, (self.x_pos + threshold, self.y_pos))
+            threshold += self.size
+
+    def resize_image(self, i):
+        return pygame.transform.scale(i, (self.size, self.size))
 
     def handle_input(self, event) -> bool:
+        if event.type == pygame.JOYHATMOTION:
+            self.input_handler.handle_hat_input(event)
+        if event.type == pygame.JOYAXISMOTION:
+            self.input_handler.handle_analog_input(event)
+        if event.type == pygame.JOYBUTTONDOWN:
+            self.input_handler.handle_button_input(event)
         return True
 
 
@@ -30,12 +52,11 @@ class Game:
     def __init__(self, entries):
         self.entries = entries
 
-        self.menu = MenuView(self, entries)
-
         pygame.init()
 
         self.screen = pygame.display
         self.max_res = self._get_screen_res()
+        self.menu = MenuView(self, entries, self.max_res)
         self.frame = self.screen.set_mode(self.DEFAULT_RES)
         self.is_fullscreen = False
 
@@ -57,9 +78,6 @@ class Game:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self._toggle_mode()
-                return True
-            else:
-                print(event)
                 return True
         return self.menu.handle_input(event)
 

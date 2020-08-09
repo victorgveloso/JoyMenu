@@ -23,7 +23,6 @@ class MenuEntries:
     def add(self, title, icon, script) -> Entry:
         entry = Entry(title=title, icon=icon, script=script)
         self.values.append(entry)
-        print(self.values)
         return entry
 
     def __len__(self):
