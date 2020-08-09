@@ -1,0 +1,13 @@
+menu-entries:
+  - title: Steam link
+    icon: ./steam-link.png
+    script: .steam-link.sh
+  - title: Turn on Gamer PC
+    icon: ./gamer-pc.png
+    script: .wake-gamer.sh
+  - title: Kodi
+    icon: ./kodi.png
+    script: ./kodi.sh
+  - title: Stremio
+    icon: ./stremio.png
+    script: ./stremio.sh
