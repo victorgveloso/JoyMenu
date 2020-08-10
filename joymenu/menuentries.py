@@ -4,9 +4,10 @@ import yaml
 
 
 class Entry:
-    def __init__(self, title, icon, script):
+    def __init__(self, title, icon, selected_icon, script):
         self.title = title
         self.icon = icon
+        self.selected_icon = selected_icon
         self.script = script
 
     def __repr__(self):
@@ -20,8 +21,8 @@ class MenuEntries:
     def __repr__(self):
         return self.values.__repr__()
 
-    def add(self, title, icon, script) -> Entry:
-        entry = Entry(title=title, icon=icon, script=script)
+    def add(self, title, icon, selected_icon, script) -> Entry:
+        entry = Entry(title=title, icon=icon, selected_icon=selected_icon, script=script)
         self.values.append(entry)
         return entry
 

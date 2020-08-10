@@ -1,4 +1,7 @@
-from pygame import joystick as joystick
+from pygame import joystick
+
+import joymenu.game as game
+import joymenu.reactive
 
 
 class XboxController:
@@ -9,7 +12,8 @@ class XboxController:
 
 
 class InputHandler:
-    def __init__(self):
+    def __init__(self, reactive_broker: joymenu.reactive.ReactiveBroker):
+        self.reactive_broker = reactive_broker
         self._controller = XboxController()
         self._init_available_joysticks()
 
@@ -19,12 +23,12 @@ class InputHandler:
             joystick.Joystick(j).init()
 
     def handle_button_input(self, event):
-        print(f"\t\tBotao: {self._controller.buttons[event.button]}")
+        # print(f"Event{event}")
         if self._controller.buttons[event.button] == 'A':
-            print('Selecionar')
+            self.reactive_broker.register(self.reactive_broker.SELECT)
 
     def handle_analog_input(self, event):
-        print(f"\t\tEixo analogico ou gatilho ({self._controller.axis[event.axis]}): {event.value}")
+        # print(f"\t\tEixo analogico ou gatilho ({self._controller.axis[event.axis]}): {event.value}")
         if self._controller.axis[event.axis] in ['LX', 'RX']:
             if self._is_meaningful(event):
                 self._get_sense(event.value)
@@ -33,13 +37,12 @@ class InputHandler:
         return abs(event.value) >= self._controller.threshold
 
     def handle_hat_input(self, event):
-        print(f"{self._controller.hats[event.hat]}: {event.value}")
+        #print(f"{self._controller.hats[event.hat]}: {event.value}")
         x, _ = event.value
         self._get_sense(x)
 
-    @staticmethod
-    def _get_sense(value):
+    def _get_sense(self, value):
         if value < 0:
-            print('Anterior')
+            self.reactive_broker.register(self.reactive_broker.BACKWARD)
         elif value > 0:
-            print('Próximo')
+            self.reactive_broker.register(self.reactive_broker.FORWARD)

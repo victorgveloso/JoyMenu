@@ -9,17 +9,14 @@ class Cursor:
         else:
             raise IndexError(f"Pos ({pos}) is bigger than or equal to entries size ({len(entries)})")
 
+    def __repr__(self):
+        return f"Cursor(pos:{self._pos},{self._entries})"
+
     def forward(self):
-        if self._pos + 1 < len(self._entries):
-            self._pos += 1
-        else:
-            raise IndexError("Cursor is already on the last entry")
+        self._pos = min((self._pos + 1), len(self._entries) - 1)
 
     def backward(self):
-        if self._pos >= 1:
-            self._pos -= 1
-        else:
-            raise IndexError("Cursor is already on the first entry")
+        self._pos = max((self._pos - 1), 0)
 
     @property
     def curr_entry(self):
