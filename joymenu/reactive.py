@@ -1,4 +1,4 @@
-from joymenu import cursor as cursor, loader as loader
+from joymenu import cursor, loader
 
 
 class ReactiveBroker:

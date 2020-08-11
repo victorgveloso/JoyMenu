@@ -7,10 +7,10 @@ import joymenu.cursor as cursor
 class ParserStub:
     def __init__(self):
         self._entries = menuentries.MenuEntries()
-        self._entries.add('a', 'a.png', 'a.sh')
-        self._entries.add('b', 'b.png', 'b.sh')
-        self._entries.add('c', 'c.png', 'c.sh')
-        self._entries.add('d', 'd.png', 'd.sh')
+        self._entries.add('a', 'a.png', 'a-selected.png', 'a.sh')
+        self._entries.add('b', 'b.png', 'b-selected.png', 'b.sh')
+        self._entries.add('c', 'c.png', 'c-selected.png', 'c.sh')
+        self._entries.add('d', 'd.png', 'd-selected.png', 'd.sh')
 
     @property
     def entries(self):
@@ -36,12 +36,14 @@ class CursorTests(unittest.TestCase):
         for i in range(2):
             self.sut.forward()
         self.assertEqual(self.sut.pos, 3)
-        self.assertRaises(IndexError, self.sut.forward)
+        self.sut.forward()
+        self.assertEqual(self.sut.pos, 3)
 
     def test_backward_on_first(self):
         self.sut.backward()
         self.assertEqual(self.sut.pos, 0)
-        self.assertRaises(IndexError, self.sut.backward)
+        self.sut.backward()
+        self.assertEqual(self.sut.pos, 0)
 
     def test_pos(self):
         self.assertEqual(self.sut.pos, 1)
