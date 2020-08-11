@@ -10,4 +10,6 @@ class Loader:
         with open(entry.script, 'r') as script_file:
             script = script_file.read()
         self.game.toggle_mode()
-        return subprocess.call(script, shell=True)
+        returned_code = subprocess.call(script, shell=True)
+        self.game.toggle_mode()
+        return returned_code
