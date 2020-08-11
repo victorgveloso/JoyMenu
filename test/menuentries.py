@@ -8,11 +8,11 @@ class ParserTests(unittest.TestCase):
   - title: Steam link
     icon: ./steam-link.png
     selected_icon: ./selected-steam-link.png
-    script: .steam-link.sh
+    script: ./steam-link.sh
   - title: Turn on Gamer PC
     icon: ./gamer-pc.png
     selected_icon: ./selected-gamer-pc.png
-    script: .wake-gamer.sh
+    script: ./wake-gamer.sh
   - title: Kodi
     icon: ./kodi.png
     selected_icon: ./selected-kodi.png

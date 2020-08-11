@@ -51,10 +51,12 @@ class MenuView:
     def handle_input(self, event) -> bool:
         if event.type == pygame.JOYHATMOTION:
             self.input_handler.handle_hat_input(event)
-        if event.type == pygame.JOYAXISMOTION:
+        elif event.type == pygame.JOYAXISMOTION:
             self.input_handler.handle_analog_input(event)
-        if event.type == pygame.JOYBUTTONDOWN:
+        elif event.type == pygame.JOYBUTTONDOWN:
             self.input_handler.handle_button_input(event)
+        elif event.type == pygame.KEYDOWN:
+            self.input_handler.handle_keyboard_input(event)
         return True
 
 
@@ -74,8 +76,8 @@ class Game:
         self.cursor = cursor.Cursor(entries)
         self.react_broker = reactive.ReactiveBroker(self.cursor, loader.Loader())
         self.menu = MenuView(self, entries, self.max_res, self.react_broker, self.cursor)
-        self.frame = self.screen.set_mode(self.DEFAULT_RES)
-        self.is_fullscreen = False
+        self.frame = self.screen.set_mode(self.max_res, pygame.FULLSCREEN | pygame.DOUBLEBUF)
+        self.is_fullscreen = True
 
     def main_loop(self):
         self.counter = 0
