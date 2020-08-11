@@ -20,6 +20,6 @@ class ReactiveBroker:
                 self.cursor.forward()
             elif i == self.BACKWARD:
                 self.cursor.backward()
-            elif i == self.SELECT:
+            elif i == self.SELECT:  # must be the last (otherwise it'll select the previous entry
                 self.loader.load(self.cursor.curr_entry)
         self.react_to.clear()
