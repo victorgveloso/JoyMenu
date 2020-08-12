@@ -28,10 +28,10 @@ class KeyboardController:
 class InputHandler:
     def __init__(self, reactive_broker: joymenu.reactive.ReactiveBroker):
         self.reactive_broker = reactive_broker
-        self._init_available_joysticks()
+        self.init_available_joysticks()
 
     @staticmethod
-    def _init_available_joysticks():
+    def init_available_joysticks():
         for j in range(joystick.get_count()):
             joystick.Joystick(j).init()
 

@@ -12,4 +12,6 @@ class Loader:
         self.game.toggle_mode()
         returned_code = subprocess.call(script, shell=True)
         self.game.toggle_mode()
+        from joymenu.controllers import InputHandler
+        InputHandler.init_available_joysticks()
         return returned_code

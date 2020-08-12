@@ -76,8 +76,8 @@ class Game:
         self.cursor = cursor.Cursor(entries)
         self.react_broker = reactive.ReactiveBroker(self.cursor, loader.Loader(self))
         self.menu = MenuView(self, entries, self.max_res, self.react_broker, self.cursor)
-        self.frame = self.screen.set_mode(self.max_res, pygame.FULLSCREEN | pygame.DOUBLEBUF)
-        self.is_fullscreen = True
+        self.is_fullscreen = False
+        self.toggle_mode()
 
     def main_loop(self):
         self.counter = 0
@@ -115,6 +115,8 @@ class Game:
     def toggle_mode(self):
         if not self.is_fullscreen:
             self.frame = self.screen.set_mode(self.max_res, pygame.FULLSCREEN | pygame.DOUBLEBUF)
+            pygame.mouse.set_visible(False)
         else:
             self.frame = self.screen.set_mode(self.DEFAULT_RES)
+            pygame.mouse.set_visible(True)
         self.is_fullscreen = not self.is_fullscreen
