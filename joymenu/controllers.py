@@ -1,3 +1,4 @@
+import pygame
 from pygame import joystick
 
 import joymenu.reactive
@@ -36,6 +37,16 @@ class InputHandler:
             j = joystick.Joystick(j)
             j.quit()
             j.init()
+
+    @staticmethod
+    def restart_joystick(j: joystick.Joystick, tried=0):
+        try:
+            j.quit()
+            j.init()
+        except pygame.error:
+            tried += 1
+            if tried < 5:
+                InputHandler.restart_joystick(j, tried)
 
     def handle_button_input(self, event):
         # print(f"Event{event}")
