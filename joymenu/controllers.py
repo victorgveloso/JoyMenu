@@ -33,7 +33,9 @@ class InputHandler:
     @staticmethod
     def init_available_joysticks():
         for j in range(joystick.get_count()):
-            joystick.Joystick(j).init()
+            j = joystick.Joystick(j)
+            j.quit()
+            j.init()
 
     def handle_button_input(self, event):
         # print(f"Event{event}")
